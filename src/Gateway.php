@@ -57,6 +57,37 @@ class Gateway
     }
 
     /**
+     * Non 3D işlem başlatma servisi
+     *
+     * @param $amount //tutarı 100 ile çarparak gönderin, 1TL için 100 gönderilmeli
+     * @param int $installment //Taksit
+     * @param string $cardHolderName // Kart hamilinin adı soyadı
+     * @param string $cardNo // Kredi Kart numarası
+     * @param string $expireDate // Son kullanım tarihi AA/YY formatında gönderilmeli
+     * @param string $cvv // Güvenlik kodu
+     * @param string $orderId // Sipariş Numarası. Boş bırakıldığında sistem tarafından üretilir.
+     * @param string $description // Opsiyonel sipariş açıklaması Max 256 karakter
+     * @param int $currency
+     *
+     * @return mixed
+     * @throws Exception
+     */
+    public function payment($amount, int $installment = 0, string $cardHolderName, string $cardNo, string $expireDate, string $cvv, string $orderId = "", string $description = "", int $currency = 949)
+    {
+        return $this->post("Payment", $this->params([
+            'orderId' => $orderId,
+            'amount' => $amount,
+            'currency' => $currency,
+            'installmentCount' => $installment,
+            'cardHolderName' => $cardHolderName,
+            'cardNo' => $cardNo,
+            'expireDate' => $expireDate,
+            'cvv' => $cvv,
+            'description' => $description,
+        ]));
+    }
+
+    /**
      * 3D işlem başlatma servisi
      *
      * @param $callbackUrl //3D işlemi için geri dönüş URL si
@@ -66,8 +97,9 @@ class Gateway
      * @param int $currency
      *
      * @return mixed
+     * @throws Exception
      */
-    public function threeDPayment($callbackUrl, $amount, $installment = 0, $orderId = "", $currency = 949)
+    public function threeDPayment($callbackUrl, $amount, int $installment = 0, string $orderId = "", int $currency = 949)
     {
         return $this->post("threeDPayment", $this->params([
             'callbackUrl' => $callbackUrl,
@@ -75,6 +107,50 @@ class Gateway
             'amount' => $amount,
             'currency' => $currency,
             'installmentCount' => $installment,
+        ]));
+    }
+
+    /**
+     * 3D Ön Otorizasyon işlem başlatma servisi
+     *
+     * @param string $callbackUrl //3D işlemi için geri dönüş URL si
+     * @param integer $amount //tutarı 100 ile çarparak gönderin, 1TL için 100 gönderilmeli
+     * @param int $installment //Taksit
+     * @param string $orderId
+     * @param string $description
+     * @param int $currency
+     *
+     * @return mixed
+     * @throws Exception
+     */
+    public function threeDPreAuth(string $callbackUrl, int $amount, int $installment = 0, string $orderId = "", string $description="", int $currency = 949)
+    {
+        return $this->post("threeDPreAuth", $this->params([
+            'callbackUrl' => $callbackUrl,
+            'orderId' => $orderId,
+            'description' => $description,
+            'amount' => $amount,
+            'currency' => $currency,
+            'installmentCount' => $installment,
+        ]));
+    }
+
+    /**
+     * 3D Otorizasyon işlem tamamlama servisi.
+     * Ön Otorizasyonu alınan tutar müşterinin kartından tahsil edilir.
+     * Bu servis çağrılmadan satış işlemi tamamlanmış olmaz.
+     *
+     * @param string $orderId
+     * @param integer $amount // Satışa dönüştürülecek tutar. 100 ile çarparak gönderin, 1TL için 100 gönderilmeli
+     *
+     * @return mixed
+     * @throws Exception
+     */
+    public function threeDPostAuth( string $orderId, int $amount )
+    {
+        return $this->post("threeDPreAuth", $this->params([
+            'orderId' => $orderId,
+            'amount' => $amount,
         ]));
     }
 
@@ -91,9 +167,10 @@ class Gateway
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $result = curl_exec($ch);
+        $http = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        if (curl_errno($ch)) {
-            $error_msg = curl_error($ch);
+        if (curl_errno($ch) || $http !=200) {
+            $error_msg = curl_error($ch) . " " . ($http!=200?"Server Error - HTTP Error Code:" . $http:"");
             curl_close($ch);
             throw new Exception($error_msg);
         } else {
@@ -147,9 +224,7 @@ class Gateway
     {
         try {
             $response = $callable();
-
             $responseBody = (string)$response->getBody();
-
             $result = json_decode($responseBody);
 
             return $result;
@@ -158,10 +233,22 @@ class Gateway
             foreach ($this->container as $transaction) {
                 $body .= (string)$transaction['request']->getBody();
             }
-            //            echo $body;
 
             throw new Exception($e->getMessage() . "\n{$body}", 0, $e);
         }
+    }
+
+    /**
+     * Bin numarasına göre kartın bağlı olduğu banka bilgileri ile birlikte sunulabilecek taksit ve komisyon oranlarını gönderir.
+     *
+     * @param (integer) $bin // Kredi kartının ilk 6 hanesi
+     * @return mixed
+     */
+    public function getCommissionAndInstallmentInfo(int $bin)
+    {
+        return $this->post("GetCommissionAndInstallmentInfo", $this->params([
+            'bin' => $bin,
+        ]));
     }
 
     /**
@@ -211,6 +298,7 @@ class Gateway
      * @param int $pageSize
      *
      * @return mixed
+     * @throws Exception
      */
     public function history($date, $orderId = "", $page = 1, $pageSize = 10)
     {
@@ -219,24 +307,6 @@ class Gateway
             'OrderId' => $orderId,
             'Page' => $page,
             'pageSize' => $pageSize,
-        ]));
-    }
-
-    public function threeDPreAuth($callbackUrl, $amount, $orderId = "", $currency = 949)
-    {
-        return $this->post("threeDPreAuth", $this->params([
-            'callbackUrl' => $callbackUrl,
-            'orderId' => $orderId,
-            'amount' => $amount,
-            'currency' => $currency,
-        ]));
-    }
-
-    public function postAuth($amount, $orderId = "")
-    {
-        return $this->post("postAuth", $this->params([
-            'orderId' => $orderId,
-            'amount' => $amount,
         ]));
     }
 
@@ -249,6 +319,7 @@ class Gateway
      * @param string $orderId
      * @param int $currency
      * @return mixed
+     * @throws Exception
      */
     public function startPaymentThreeDSession($callbackUrl, $amount, $installment = 0, $orderId = "", $currency = 949)
     {
@@ -277,6 +348,7 @@ class Gateway
      *
      * @param $threeDSessionId
      * @return mixed
+     * @throws Exception
      */
     public function threeDSessionResult($threeDSessionId)
     {
@@ -300,7 +372,7 @@ class Gateway
         });*/
     }
 
-    public function setPost($data)
+    public function setPost($data): Gateway
     {
         $this->postdata = $data;
         return $this;
@@ -360,9 +432,9 @@ class Gateway
 
     public function getError()
     {
-       /* if (!$this->validateHash($this->postdata)) {
-            return 'Hash doğrulama başarısız';
-        }*/
+        /* if (!$this->validateHash($this->postdata)) {
+             return 'Hash doğrulama başarısız';
+         }*/
 
         return isset($this->postdata['BankResponseMessage']) ? $this->postdata['BankResponseMessage'] : null;
     }

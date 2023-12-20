@@ -1,11 +1,11 @@
 <?php
 /**
  *
- *   Posta ve Telgraf Teşkilatı A.Ş. Genel Müdürlüğü adına Alttantire Yazılım Çözümleri tarafından geliştirilmiştir.
- *   Tüm hakları Posta ve Telgraf Teşkilatı A.Ş. Genel Müdürlüğü'ne aittir.
+ *   AKÖde POS adına Alttantire Yazılım Çözümleri tarafından geliştirilmiştir.
+ *   Tüm hakları AKÖde POS'a aittir.
  *
  * @author      Alttantire Yazılım Çözümleri <info@alttantire.com>
- * @site        <https//akilliesnaf.ptt.gov.tr/>
+ * @site        <https//akodepos.com/>
  * @date        2022
  * @version     2.0
  *
@@ -22,18 +22,15 @@ class Gateway
     protected $timeSpan;
     protected $httpClient;
     protected $container;
-    protected $url = "https://payment.testdgpf.dgpaysit.com/api/Payment/";
+    protected $url = "";
     protected $postdata = []; //default
 
-    public function __construct($environment, $clientId, $apiUser, $apiPass)
+    public function __construct($apiUrl, $clientId, $apiUser, $apiPass)
     {
         $this->clientId = $clientId;
         $this->apiUser = $apiUser;
         $this->apiPass = $apiPass;
-
-        if ($environment == "LIVE") {
-            $this->url = "https://aeo.ptt.gov.tr/api/Payment/";
-        }
+        $this->url = $apiUrl;
 
         $this->init();
     }

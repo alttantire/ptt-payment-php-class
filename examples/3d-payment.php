@@ -13,11 +13,26 @@
 include "../src/Gateway.php";
 
 //### Sanal POS Üye İşyeri Ayarları
+/*
+ * apiUser: SMS ile iletilen ApiUser bilgisi
+ * clientId: SMS ile iletilen clientId bilgisi
+ * apiPass: SMS ile iletilen apiPass bilgisi
+ *
+ * Environment:
+ * TEST işlemleri için sunucu IP adresinin PTT Test Ortamına erişim yetkisi gereklidir.
+ * Erişim tanımı için PTT Akıllı Esnaf destek merkezine ulaşınız.
+ *
+ *  ** "LIVE" = "https://aeo.ptt.gov.tr/api/Payment/"
+ *  ** "TEST" = "https://prepaeo.ptt.gov.tr/api/Payment/"
+ */
+
 $apiUser = "Entegrasyon_01"; // Api kullanıcı adınız
 $clientId = "1000000032"; // Api müşteri numaranız
 $apiPass = "gkk4l2*TY112"; // Api şifreniz
-$environment = "TEST"; // "LIVE" - Gerçek ortam | "TEST" - Test ortam
-$callback_url = "//".$_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], "/"))."/payment-response.php"; // Ödeme işlem sonucunun döneceği adres - https://www.siteadresiniz.com/3D-sonuc.php
+$environment = "https://prepaeo.ptt.gov.tr/api/Payment/";
+
+// Ödeme işlem sonucunun döneceği adres - https://www.siteadresiniz.com/3D-sonuc.php
+$callback_url = "//".$_SERVER['HTTP_HOST'] . substr($_SERVER['REQUEST_URI'], 0, strrpos($_SERVER['REQUEST_URI'], "/"))."/payment-response.php";
 
 //### Sipariş Bilgileri
 $orderId = ""; // Sipariş numarası her sipariş için tekil olmalıdır. Boş bırakıldığında sistem tarafından üretilir
@@ -26,10 +41,17 @@ $instalment = 0; // Taksit sayısı - Tek çekim için 0
 
 //### API Gateway
 $gateway = new Gateway($environment, $clientId, $apiUser, $apiPass);
+
 try {
     $payment = $gateway->threeDPayment($callback_url, $amount, $instalment, $orderId);
+
+    if(!$payment->ThreeDSessionId){
+        die("ApiUser, ApiPass, ClientId ve Environment URL bilgileriniz hatalı.");
+    }
+
 } catch (Exception $e) {
-    print_r($e);
+    die("TEST ortamında işlem yapmak için sunucu IP adresinin PTT Test Ortamına erişim yetkisi gereklidir. Erişim tanımı için PTT Akıllı Esnaf destek merkezine ulaşınız.");
+//    print_r($e);
 }
 
 ?>

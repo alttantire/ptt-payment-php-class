@@ -19,11 +19,23 @@ API çağrıları için aşağıdaki metodları kullanabilirsiniz.
 include "src/Gateway.php";
 
 //### Sanal POS Üye İşyeri Ayarları
+/*
+ * apiUser: SMS ile iletilen ApiUser bilgisi
+ * clientId: SMS ile iletilen clientId bilgisi
+ * apiPass: SMS ile iletilen apiPass bilgisi
+ *
+ * Environment:
+ * TEST işlemleri için sunucu IP adresinin PTT Test Ortamına erişim yetkisi gereklidir.
+ * Erişim tanımı için PTT Akıllı Esnaf destek merkezine ulaşınız.
+ *
+ *  ** "LIVE" = "https://aeo.ptt.gov.tr/api/Payment/"
+ *  ** "TEST" = "https://prepaeo.ptt.gov.tr/api/Payment/"
+ */
+
 $apiUser = "Entegrasyon_01"; // Api kullanıcı adınız
 $clientId = "1000000032"; // Api müşteri numaranız
 $apiPass = "gkk4l2*TY112"; // Api şifreniz
-$environment = "TEST"; // "LIVE" - Gerçek ortam | "TEST" - Test ortam
-$callback_url = "https://www.orneksitesadresiniz.com/payment-response.php";
+$environment = "https://prepaeo.ptt.gov.tr/api/Payment/";
 
 //### Sipariş Bilgileri
 $orderId = ""; // Sipariş numarası her sipariş için tekil olmalıdır. Boş bırakıldığında sistem tarafından otomatik üretilir
@@ -69,11 +81,23 @@ $form_post_url = $gateway->getFormUrl();
 include "src/Gateway.php";
 
 //### Sanal POS Üye İşyeri Ayarları
+/*
+ * apiUser: SMS ile iletilen ApiUser bilgisi
+ * clientId: SMS ile iletilen clientId bilgisi
+ * apiPass: SMS ile iletilen apiPass bilgisi
+ *
+ * Environment:
+ * TEST işlemleri için sunucu IP adresinin PTT Test Ortamına erişim yetkisi gereklidir.
+ * Erişim tanımı için PTT Akıllı Esnaf destek merkezine ulaşınız.
+ *
+ *  ** "LIVE" = "https://aeo.ptt.gov.tr/api/Payment/"
+ *  ** "TEST" = "https://prepaeo.ptt.gov.tr/api/Payment/"
+ */
+
 $apiUser = "Entegrasyon_01"; // Api kullanıcı adınız
 $clientId = "1000000032"; // Api müşteri numaranız
 $apiPass = "gkk4l2*TY112"; // Api şifreniz
-$environment = "TEST"; // "LIVE" - Gerçek ortam | "TEST" - Test ortam
-$callback_url = "https://www.orneksitesadresiniz.com/payment-response.php";
+$environment = "https://prepaeo.ptt.gov.tr/api/Payment/";
 
 //### Sipariş Bilgileri
 $orderId = ""; // Sipariş numarası her sipariş için tekil olmalıdır. Boş bırakıldığında sistem tarafından otomatik üretilir
@@ -104,11 +128,23 @@ $iframe_url = $gateway->getFrameUrl($payment->ThreeDSessionId);
 include "src/Gateway.php";
 
 //### Sanal POS Üye İşyeri Ayarları
+/*
+ * apiUser: SMS ile iletilen ApiUser bilgisi
+ * clientId: SMS ile iletilen clientId bilgisi
+ * apiPass: SMS ile iletilen apiPass bilgisi
+ *
+ * Environment:
+ * TEST işlemleri için sunucu IP adresinin PTT Test Ortamına erişim yetkisi gereklidir.
+ * Erişim tanımı için PTT Akıllı Esnaf destek merkezine ulaşınız.
+ *
+ *  ** "LIVE" = "https://aeo.ptt.gov.tr/api/Payment/"
+ *  ** "TEST" = "https://prepaeo.ptt.gov.tr/api/Payment/"
+ */
+
 $apiUser = "Entegrasyon_01"; // Api kullanıcı adınız
 $clientId = "1000000032"; // Api müşteri numaranız
 $apiPass = "gkk4l2*TY112"; // Api şifreniz
-$environment = "TEST"; // "LIVE" - Gerçek ortam | "TEST" - Test ortam
-$callback_url = "https://www.orneksitesadresiniz.com/payment-response.php";
+$environment = "https://prepaeo.ptt.gov.tr/api/Payment/";
 
 //### Sipariş Bilgileri
 $orderId = "20221011999"; // Sipariş numarası
@@ -128,10 +164,23 @@ print_r($paymentCheck);
 include "src/Gateway.php";
 
 //### Sanal POS Üye İşyeri Ayarları
+/*
+ * apiUser: SMS ile iletilen ApiUser bilgisi
+ * clientId: SMS ile iletilen clientId bilgisi
+ * apiPass: SMS ile iletilen apiPass bilgisi
+ *
+ * Environment:
+ * TEST işlemleri için sunucu IP adresinin PTT Test Ortamına erişim yetkisi gereklidir.
+ * Erişim tanımı için PTT Akıllı Esnaf destek merkezine ulaşınız.
+ *
+ *  ** "LIVE" = "https://aeo.ptt.gov.tr/api/Payment/"
+ *  ** "TEST" = "https://prepaeo.ptt.gov.tr/api/Payment/"
+ */
+
 $apiUser = "Entegrasyon_01"; // Api kullanıcı adınız
 $clientId = "1000000032"; // Api müşteri numaranız
 $apiPass = "gkk4l2*TY112"; // Api şifreniz
-$environment = "TEST"; // "LIVE" - Gerçek ortam | "TEST" - Test ortam
+$environment = "https://prepaeo.ptt.gov.tr/api/Payment/";
 
 //### API Gateway
 $gateway = new Gateway($environment, $clientId, $apiUser, $apiPass);
@@ -165,10 +214,23 @@ print_r($paymentCheck);
 include "src/Gateway.php";
 
 //### Sanal POS Üye İşyeri Ayarları
+/*
+ * apiUser: SMS ile iletilen ApiUser bilgisi
+ * clientId: SMS ile iletilen clientId bilgisi
+ * apiPass: SMS ile iletilen apiPass bilgisi
+ *
+ * Environment:
+ * TEST işlemleri için sunucu IP adresinin PTT Test Ortamına erişim yetkisi gereklidir.
+ * Erişim tanımı için PTT Akıllı Esnaf destek merkezine ulaşınız.
+ *
+ *  ** "LIVE" = "https://aeo.ptt.gov.tr/api/Payment/"
+ *  ** "TEST" = "https://prepaeo.ptt.gov.tr/api/Payment/"
+ */
+
 $apiUser = "Entegrasyon_01"; // Api kullanıcı adınız
 $clientId = "1000000032"; // Api müşteri numaranız
 $apiPass = "gkk4l2*TY112"; // Api şifreniz
-$environment = "TEST"; // "LIVE" - Gerçek ortam | "TEST" - Test ortam
+$environment = "https://prepaeo.ptt.gov.tr/api/Payment/";
 
 //### Sipariş Bilgileri
 $orderId = "20221011999"; // Sipariş numarası
@@ -187,10 +249,23 @@ print_r($paymentCheck);
 include "src/Gateway.php";
 
 //### Sanal POS Üye İşyeri Ayarları
+/*
+ * apiUser: SMS ile iletilen ApiUser bilgisi
+ * clientId: SMS ile iletilen clientId bilgisi
+ * apiPass: SMS ile iletilen apiPass bilgisi
+ *
+ * Environment:
+ * TEST işlemleri için sunucu IP adresinin PTT Test Ortamına erişim yetkisi gereklidir.
+ * Erişim tanımı için PTT Akıllı Esnaf destek merkezine ulaşınız.
+ *
+ *  ** "LIVE" = "https://aeo.ptt.gov.tr/api/Payment/"
+ *  ** "TEST" = "https://prepaeo.ptt.gov.tr/api/Payment/"
+ */
+
 $apiUser = "Entegrasyon_01"; // Api kullanıcı adınız
 $clientId = "1000000032"; // Api müşteri numaranız
 $apiPass = "gkk4l2*TY112"; // Api şifreniz
-$environment = "TEST"; // "LIVE" - Gerçek ortam | "TEST" - Test ortam
+$environment = "https://prepaeo.ptt.gov.tr/api/Payment/";
 
 //### Sipariş Bilgileri
 $orderId = "202210109"; // Sipariş numarası
@@ -210,10 +285,23 @@ print_r($paymentCheck);
 include "src/Gateway.php";
 
 //### Sanal POS Üye İşyeri Ayarları
+/*
+ * apiUser: SMS ile iletilen ApiUser bilgisi
+ * clientId: SMS ile iletilen clientId bilgisi
+ * apiPass: SMS ile iletilen apiPass bilgisi
+ *
+ * Environment:
+ * TEST işlemleri için sunucu IP adresinin PTT Test Ortamına erişim yetkisi gereklidir.
+ * Erişim tanımı için PTT Akıllı Esnaf destek merkezine ulaşınız.
+ *
+ *  ** "LIVE" = "https://aeo.ptt.gov.tr/api/Payment/"
+ *  ** "TEST" = "https://prepaeo.ptt.gov.tr/api/Payment/"
+ */
+
 $apiUser = "Entegrasyon_01"; // Api kullanıcı adınız
 $clientId = "1000000032"; // Api müşteri numaranız
 $apiPass = "gkk4l2*TY112"; // Api şifreniz
-$environment = "TEST"; // "LIVE" - Gerçek ortam | "TEST" - Test ortam
+$environment = "https://prepaeo.ptt.gov.tr/api/Payment/";
 
 //### API Gateway
 $gateway = new Gateway($environment, $clientId, $apiUser, $apiPass);
@@ -243,10 +331,23 @@ try {
 include "src/Gateway.php";
 
 //### Sanal POS Üye İşyeri Ayarları
+/*
+ * apiUser: SMS ile iletilen ApiUser bilgisi
+ * clientId: SMS ile iletilen clientId bilgisi
+ * apiPass: SMS ile iletilen apiPass bilgisi
+ *
+ * Environment:
+ * TEST işlemleri için sunucu IP adresinin PTT Test Ortamına erişim yetkisi gereklidir.
+ * Erişim tanımı için PTT Akıllı Esnaf destek merkezine ulaşınız.
+ *
+ *  ** "LIVE" = "https://aeo.ptt.gov.tr/api/Payment/"
+ *  ** "TEST" = "https://prepaeo.ptt.gov.tr/api/Payment/"
+ */
+
 $apiUser = "Entegrasyon_01"; // Api kullanıcı adınız
 $clientId = "1000000032"; // Api müşteri numaranız
 $apiPass = "gkk4l2*TY112"; // Api şifreniz
-$environment = "TEST"; // "LIVE" - Gerçek ortam | "TEST" - Test ortam
+$environment = "https://prepaeo.ptt.gov.tr/api/Payment/";
 
 //### API Gateway
 $gateway = new Gateway($environment, $clientId, $apiUser, $apiPass);

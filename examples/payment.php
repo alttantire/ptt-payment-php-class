@@ -13,10 +13,23 @@
 include "../src/Gateway.php";
 
 //### Sanal POS Üye İşyeri Ayarları
+/*
+ * apiUser: SMS ile iletilen ApiUser bilgisi
+ * clientId: SMS ile iletilen clientId bilgisi
+ * apiPass: SMS ile iletilen apiPass bilgisi
+ *
+ * Environment:
+ * TEST işlemleri için sunucu IP adresinin PTT Test Ortamına erişim yetkisi gereklidir.
+ * Erişim tanımı için PTT Akıllı Esnaf destek merkezine ulaşınız.
+ *
+ *  ** "LIVE" = "https://aeo.ptt.gov.tr/api/Payment/"
+ *  ** "TEST" = "https://prepaeo.ptt.gov.tr/api/Payment/"
+ */
+
 $apiUser = "Entegrasyon_01"; // Api kullanıcı adınız
 $clientId = "1000000032"; // Api müşteri numaranız
 $apiPass = "gkk4l2*TY112"; // Api şifreniz
-$environment = "TEST"; // "LIVE" - Gerçek ortam | "TEST" - Test ortam
+$environment = "https://prepaeo.ptt.gov.tr/api/Payment/";
 
 //### API Gateway
 $gateway = new Gateway($environment, $clientId, $apiUser, $apiPass);
